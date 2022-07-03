@@ -21,6 +21,12 @@ private UserRepository userRepository;
 		return userRepository.findAll(PageRequest.of(page,size));
 	}
 	
+	public Page<String> getUsernames(int page, int size){
+		//Pasamos como parametro numero de pagina y tamaño de pagina
+		return userRepository.findUsernames(PageRequest.of(page,size));
+	}
+	
+	
 	public User getUserById(Integer userId){
 		return userRepository.findById(userId).orElseThrow(
 				()->new ResponseStatusException(HttpStatus.NOT_FOUND,String.format("User %d not found", userId)));

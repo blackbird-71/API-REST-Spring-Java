@@ -28,6 +28,12 @@ public class UserController {
 		return new ResponseEntity<Page<User>>(service.getUsers(page, size),HttpStatus.OK);
 	}
 	
+	@GetMapping("/usernames")
+	public ResponseEntity<Page<String>> getUsernames(@RequestParam(required=false, defaultValue="0", value="page") int page,
+			@RequestParam(required=false, defaultValue="1000", value="size") int size){
+		return new ResponseEntity<Page<String>>(service.getUsernames(page, size),HttpStatus.OK);
+	}
+	
 	@GetMapping(value="/{userId}")
 	public ResponseEntity<User> getUserById(@PathVariable("userId") Integer userId){
 		return new ResponseEntity<User>(service.getUserById(userId),HttpStatus.OK);
