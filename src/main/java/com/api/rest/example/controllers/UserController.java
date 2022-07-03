@@ -5,17 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.api.rest.example.models.User;
+import com.api.rest.example.entities.User;
 import com.api.rest.example.services.UserService;
 
 @RestController
@@ -23,14 +20,30 @@ import com.api.rest.example.services.UserService;
 public class UserController {
 	
 	@Autowired
-	private UserService userService;
+	private UserService service;
 	
 	@GetMapping
-	public ResponseEntity<List<User>> getUsers(@RequestParam(value="startWith",required=false) String startWith){
-		return new ResponseEntity<List<User>>(userService.getUsers(startWith),HttpStatus.OK);
-
+	public ResponseEntity<List<User>> getUsers(){
+		return new ResponseEntity<List<User>>(service.getUsers(),HttpStatus.OK);
 	}
 	
+	@GetMapping(value="/{userId}")
+	public ResponseEntity<User> getUserById(@PathVariable("userId") Integer userId){
+		return new ResponseEntity<User>(service.getUserById(userId),HttpStatus.OK);
+	}
+	
+	
+	@GetMapping(value="/username/{username}")
+	public ResponseEntity<User> getUserByUserName(@PathVariable("username") String username){
+		return new ResponseEntity<User>(service.getUserByUsername(username),HttpStatus.OK);
+	}
+	
+	@PostMapping
+	public ResponseEntity<User> authenticate(@RequestBody User user){
+		return new ResponseEntity<User>(service.getUserByUsernameAndPassword(user.getUsername(),user.getPassword()),HttpStatus.OK);
+	}
+
+/*
 	@GetMapping(value="/{username}")
 	public ResponseEntity<User> getUserByUserName(@PathVariable("username") String username){
 		return new ResponseEntity<User>(userService.getUserByUsername(username),HttpStatus.OK);
@@ -51,4 +64,5 @@ public class UserController {
 		userService.deleteUser(username);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
+*/
 }
