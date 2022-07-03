@@ -25,7 +25,7 @@ public class ApirestExampleApplication implements ApplicationRunner{
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 100000; i++) {
 			User user = new User();
 			user.setUsername(faker.name().username());
 			user.setPassword(faker.dragonBall().character());

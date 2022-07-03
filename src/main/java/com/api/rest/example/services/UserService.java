@@ -1,8 +1,8 @@
 package com.api.rest.example.services;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -16,8 +16,9 @@ public class UserService {
 @Autowired
 private UserRepository userRepository;
 	
-	public List<User> getUsers(){
-		return userRepository.findAll();
+	public Page<User> getUsers(int page, int size){
+		//Pasamos como parametro numero de pagina y tamaño de pagina
+		return userRepository.findAll(PageRequest.of(page,size));
 	}
 	
 	public User getUserById(Integer userId){
