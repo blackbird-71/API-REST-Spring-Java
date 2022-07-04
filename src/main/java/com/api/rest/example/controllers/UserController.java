@@ -15,6 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.api.rest.example.entities.User;
 import com.api.rest.example.services.UserService;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -35,10 +40,14 @@ public class UserController {
 	}
 	
 	@GetMapping(value="/{userId}")
+	@ApiOperation(value="Returns a user for a given user Id", response=User.class)
+	@ApiResponses(value= {
+			@ApiResponse(code=200, message="the record was found"),
+			@ApiResponse(code=404, message="the record was not found")
+	})
 	public ResponseEntity<User> getUserById(@PathVariable("userId") Integer userId){
 		return new ResponseEntity<User>(service.getUserById(userId),HttpStatus.OK);
 	}
-	
 	
 	@GetMapping(value="/username/{username}")
 	public ResponseEntity<User> getUserByUserName(@PathVariable("username") String username){
